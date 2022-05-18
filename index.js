@@ -55,7 +55,8 @@ app.use((error, req, res, next) => {
             status: error.status || 500,
             message: error.message
         }
-    })
+    });
+    next();
 })
 
 
