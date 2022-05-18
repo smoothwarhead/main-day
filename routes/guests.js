@@ -18,7 +18,8 @@ router.get('/admin', function(req, res, next) {
         db.query(getquery, (err, result) => {
     
             if(err){
-              throw createError(400, "Bad request. Please make sure your credentials are correct");
+              next(createError("Internal server error"));
+              return;
             }else{
               if(result.length === 0){
                 res.status(200).json({
@@ -30,13 +31,16 @@ router.get('/admin', function(req, res, next) {
                 res.status(201).json({
                   guests: result
                 });
+
+                next();
+
               }
             }
         });
 
         
     } catch (error) {
-        throw createError(500, "Internal server error");
+        throw next(createError("Internal server error"));
 
     }
   
@@ -76,9 +80,15 @@ router.post('/save-a-date/:id', function(req, res, next) {
     
     if(name === "" || numOfGuests === ""){
 
-      res.status(406).json({
-        noContent: "Please make sure you type in your name and the number of accompanying guests."
-      }); 
+
+      // res.status(406).json({
+      //   noContent: "Please make sure you type in your name and the number of accompanying guests."
+      // }); 
+
+      next(createError("Bad request. Please make sure your credentials are correct"));
+      return;
+
+      
       
     }
     else{
@@ -89,7 +99,9 @@ router.post('/save-a-date/:id', function(req, res, next) {
       db.query(guestQuery, [[name], [event] ], (err, result1) => {
 
         if(err){
-          throw createError(400, "Bad request. Please make sure your credentials are correct");
+
+          next(createError("Internal server error"));
+          return;
 
         }
         if(result1.length > 0){
@@ -97,6 +109,9 @@ router.post('/save-a-date/:id', function(req, res, next) {
           res.status(204).json({
             noContent: "A seat has been reserved for this name already."
           }); 
+
+          next();
+
   
         }else{
   
@@ -106,14 +121,19 @@ router.post('/save-a-date/:id', function(req, res, next) {
           db.query(insertquery, [values],  (err, result2) => {
         
             if(err){
-                throw createError(400, "Bad request. Please make sure your credentials are correct");
+                
+              next(createError("Internal server error"));
+              return;
 
             }
             if(result2){
         
               res.status(200).json({
                 message: "You have successfully saved a date"
-              });      
+              }); 
+              
+              next();
+              
               
             }
           });
@@ -127,7 +147,8 @@ router.post('/save-a-date/:id', function(req, res, next) {
 
     
   } catch (error) {
-    throw createError(500, "Internal server error");
+
+    next(createError("Internal server error"));
   }
 
 
