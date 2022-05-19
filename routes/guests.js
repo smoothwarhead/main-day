@@ -22,13 +22,13 @@ router.get('/admin', function(req, res, next) {
               return;
             }else{
               if(result.length === 0){
-                res.status(200).json({
+                res.status(200).send({
                   guests: [],
                   message: "No guest on the guest list yet."
                 });
               }
               if(result.length > 0){
-                res.status(201).json({
+                res.status(201).send({
                   guests: result
                 });
 
