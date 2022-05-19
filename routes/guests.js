@@ -2,7 +2,7 @@
 const express = require("express");
 const createError = require("http-errors");
 
-const db = require('../database/dbConfig');
+const db = require('../database/database');
 const router = express.Router();
 
 
