@@ -21,20 +21,25 @@ router.get('/admin', function(req, res, next) {
               next(createError("Internal server error"));
               return;
             }else{
+
               if(result.length === 0){
-                res.status(200).send({
+                return res.status(200).json({
                   guests: [],
                   message: "No guest on the guest list yet."
                 });
+
               }
+              
               if(result.length > 0){
-                res.status(201).send({
+                return res.status(201).json({
                   guests: result
                 });
 
-                next();
 
               }
+
+              next();
+
             }
         });
 
@@ -106,11 +111,9 @@ router.post('/save-a-date/:id', function(req, res, next) {
         }
         if(result1.length > 0){
   
-          res.status(204).json({
+          return res.status(204).json({
             noContent: "A seat has been reserved for this name already."
           }); 
-
-          next();
 
   
         }else{
