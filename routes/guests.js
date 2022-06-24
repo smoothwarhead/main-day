@@ -54,6 +54,9 @@ router.get('/admin', function(req, res, next) {
 });
 
 
+
+// save to database
+
 router.post('/save-a-date/:id', function(req, res, next) {
 
   try {
@@ -71,7 +74,7 @@ router.post('/save-a-date/:id', function(req, res, next) {
       }
       if(id === "2"){
   
-        return "wedding-celebration";      
+        return "Wedding Celebration";      
   
       }
       
@@ -154,6 +157,30 @@ router.post('/save-a-date/:id', function(req, res, next) {
 
   
 
+});
+
+// delete from database
+
+router.delete('/delete/:id', (req, res, next) => {
+  const id = req.params.id;
+
+  db.query("DELETE FROM guest WHERE guest_id = ?", [id], (err, result) => {
+    if(err){
+                
+      next(createError("Internal server error"));
+      return;
+
+    }
+    if(result){
+
+      return res.status(200).json({
+        message: "guest successfully deleted"
+      }); 
+      
+                    
+      
+    }
+  })
 });
 
 module.exports = router;
