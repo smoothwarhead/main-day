@@ -66,18 +66,15 @@ router.post('/save-a-date/:id', function(req, res, next) {
   
       if(id === "1"){
   
-        return "Trads";
-  
-      }else if(id === "2"){
-  
-        return "White";      
+        return "Wedding";
   
       }
-      else{
+      if(id === "2"){
   
-        return "Party";
-          
+        return "wedding-celebration";      
+  
       }
+      
     }
   
     const event = getEvent();
@@ -131,12 +128,11 @@ router.post('/save-a-date/:id', function(req, res, next) {
             }
             if(result2){
         
-              res.status(200).json({
+              return res.status(200).json({
                 message: "You have successfully saved a date"
               }); 
               
-              next();
-              
+                            
               
             }
           });
