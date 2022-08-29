@@ -30,6 +30,7 @@ db.getConnection((err, connection) => {
         }
     }
     if (connection){
+        console.log("Database connected successfully");
         connection.release();
     }
 
